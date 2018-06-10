@@ -36,20 +36,33 @@
                                     <td class="col-lg-3">
                                         <ul class="list-unstyled">
                                             <li>{{ reclamation.category.categoryTitle }}</li>
-                                            <li><img src="{{ reclamation.category.categoryImage }}" class="img-responsive"></li>
+                                            <li><img src="{{ reclamation.category.categoryImage }}"
+                                                     class="img-responsive"></li>
                                         </ul>
                                     </td>
-                                    <td class="col-lg-3"><img src="http://localhost:8080/img/{{ reclamation.photo }}" class="img-responsive"></td>
+                                    <td class="col-lg-3"><img src="http://localhost:8080/img/{{ reclamation.photo }}"
+                                                              class="img-responsive"></td>
                                     <td class="center">
                                         <ul class="list-unstyled">
-                                            <li><img src="https://maps.googleapis.com/maps/api/staticmap?size=200x100&center={{ reclamation.latitude }},{{ reclamation.longitude }}&markers=|{{ reclamation.latitude }},{{ reclamation.longitude }}&key=AIzaSyCUc3PEuWoHkxfSuey1zHT_-V4xFxPJO3I"/> </li>
-                                            <li><a class="btn btn-info col-lg-12" target="_blank" href="https://maps.google.com/?q={{ reclamation.latitude }},{{ reclamation.longitude }}"><i class="fa fa-map-marker" aria-hidden="true"></i> Voir sur carte</a> </li>
+                                            <li>
+                                                <img src="https://maps.googleapis.com/maps/api/staticmap?size=200x100&center={{ reclamation.latitude }},{{ reclamation.longitude }}&markers=|{{ reclamation.latitude }},{{ reclamation.longitude }}&key=AIzaSyCUc3PEuWoHkxfSuey1zHT_-V4xFxPJO3I"/>
+                                            </li>
+                                            <li><a class="btn btn-info col-lg-12" target="_blank"
+                                                   href="https://maps.google.com/?q={{ reclamation.latitude }},{{ reclamation.longitude }}"><i
+                                                            class="fa fa-map-marker" aria-hidden="true"></i> Voir sur
+                                                    carte</a></li>
                                         </ul>
                                     </td>
                                     <td class="col-lg-3">
                                         <ul class="list-inline">
-                                            <li><input type="radio" data-id="{{ reclamation.id }}" name="status_{{ reclamation.id }}" value="0"  {% if not reclamation.enabled %}checked="checked"{% endif %}/> <i class="fa fa-times" aria-hidden="true"></i></li>
-                                            <li><input type="radio" data-id="{{ reclamation.id }}" name="status_{{ reclamation.id }}" value="1"  {% if reclamation.enabled %}checked="checked"{% endif %}/> <i class="fa fa-check-square" aria-hidden="true"></i></li>
+                                            <li><input type="radio" data-id="{{ reclamation.id }}"
+                                                       name="status_{{ reclamation.id }}" value="0"
+                                                       {% if not reclamation.enabled %}checked="checked"{% endif %}/> <i
+                                                        class="fa fa-times" aria-hidden="true"></i></li>
+                                            <li><input type="radio" data-id="{{ reclamation.id }}"
+                                                       name="status_{{ reclamation.id }}" value="1"
+                                                       {% if reclamation.enabled %}checked="checked"{% endif %}/> <i
+                                                        class="fa fa-check-square" aria-hidden="true"></i></li>
                                         </ul>
                                     </td>
                                 </tr>
@@ -71,17 +84,19 @@
     {{ parent() }}
     <script>
         $(function () {
-            $('input[type="radio"]').click(function(){
-                if ($(this).is(':checked'))
-                {
-                    var val = $(this).val();
-                    var id = $(this).attr('data-id');
+            $('input[type="radio"]').click(function () {
+                var radio = $(this);
+                if ($(radio).is(':checked')) {
+                    var val = $(radio).val();
+                    var id = $(radio).attr('data-id');
                     if (confirm('êtes vous sûr de modifier le status?')) {
                         $.post('{{ path('reclamation_update') }}', {
                             'status': val,
                             'id': id,
+                            'update': true,
                         });
                     }
+                    location.reload(true);
                 }
             });
         });

@@ -36,7 +36,7 @@
                                     <td class="center"><img src="{{ category.categoryImage }}"></td>
                                     <td class="center">
                                         <ul class="list-unstyled">
-                                            <li><a href="{{ path('category_delete', {'id':category.categoryID} ) }}">Delete</a> </li>
+                                            <li><a class="btn btn-danger" href="{{ path('category_delete', {'id':category.categoryID} ) }}" onclick="return confirm('Vous êtes sur le point de supprimer une catégorie ?')">Delete</a> </li>
                                         </ul>
                                     </td>
                                 </tr>

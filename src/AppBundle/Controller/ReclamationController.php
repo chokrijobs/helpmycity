@@ -58,7 +58,6 @@ class ReclamationController extends Controller
         //echo "TOKEN: $token <br>";
         $status = $request->get('status');
         $id = $request->get('id');
-        //api/reclamations/enable
         ###
         $headers = [
             'Authorization' => 'Bearer ' . $token,
@@ -73,7 +72,6 @@ class ReclamationController extends Controller
             ],
         ]);
         $json = $resp->getBody()->getContents();
-
 
         return new JsonResponse($json);
     }
