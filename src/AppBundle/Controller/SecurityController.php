@@ -40,9 +40,12 @@ class SecurityController extends Controller
                     $json = $resp->getBody()->getContents();
                     $serializer = $this->get('jms_serializer');
                     $user = $serializer->deserialize($json, "AppBundle\Security\User\WebserviceUser", 'json');
+
                     $token = new UsernamePasswordToken($user, null, 'main', ['ROLE_ADMIN']);
+                    //
                     $this->get('security.token_storage')->setToken($token);
                     $this->get('session')->set('_security_main', serialize($token));
+                    $this->get('session')->set('accessToken', $user->getAccessToken());
                     return $this->redirectToRoute('homepage');
                 } else {
                     return $this->redirectToRoute('login');

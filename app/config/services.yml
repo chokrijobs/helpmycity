@@ -35,7 +35,7 @@ services:
     #         $someArgument: 'some_value'
     webservice_user_provider:
         class: AppBundle\Security\User\WebserviceUserProvider
-        arguments: ['@eight_points_guzzle.client.api_city', '@jms_serializer']
+        arguments: ['@eight_points_guzzle.client.api_city', '@jms_serializer', '@session']
     AppBundle\Security\Authentication\Provider\WsseProvider:
             arguments:
                 $userProvider: '@webservice_user_provider'

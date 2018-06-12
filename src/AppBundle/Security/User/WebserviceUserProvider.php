@@ -9,6 +9,7 @@
 namespace AppBundle\Security\User;
 
 use AppBundle\Security\User\WebserviceUser;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -22,11 +23,13 @@ class WebserviceUserProvider implements UserProviderInterface
      */
     private $client;
     private $serializer;
+    private $session;
 
-    public function __construct(Client $client, Serializer $serializer)
+    public function __construct(Client $client, Serializer $serializer, Session $session)
     {
         $this->client = $client;
         $this->serializer = $serializer;
+        $this->session = $session;
     }
 
     public function loadUserByUsername($username)
@@ -44,6 +47,7 @@ class WebserviceUserProvider implements UserProviderInterface
         $resp = $this->client->get('/api/users/'.$username, []);
 
         $json = $resp->getBody()->getContents();
+        //echo $json;
         $serializer = $this->serializer;
         $userData = $serializer->deserialize($json, "AppBundle\Security\User\WebserviceUser", 'json');
         //var_dump($userData);
@@ -53,7 +57,7 @@ class WebserviceUserProvider implements UserProviderInterface
             $password = $password;
             $salt = $password;
             $roles = ['ROLE_ADMIN'];
-            $accessToken = $userData->getAccessToken();
+            $accessToken = $this->session->get('accessToken');
 
             return new WebserviceUser($username, $password, $salt, $roles, $accessToken);
         }
