@@ -10,6 +10,12 @@
         <br><br><br>
     <div class="row">
         <div class="col-lg-6 col-md-offset-3">
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-danger">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    {{ message }}
+                </div>
+            {% endfor %}
             <form action="{{ path('login') }}" method="post" role="form">
                 <div class="form-group input-group">
                     <span class="input-group-addon">@</span>
@@ -17,7 +23,7 @@
                 </div>
                 <div class="form-group input-group">
                     <span class="input-group-addon"><i class="fa fa-lock"></i> </span>
-                    <input type="text" class="form-control" placeholder="Password" id="password" name="_password" >
+                    <input type="password" class="form-control" placeholder="Password" id="password" name="_password" >
                 </div>
 
                 {#

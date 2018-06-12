@@ -35,12 +35,14 @@ class WebserviceUserProvider implements UserProviderInterface
         // make a call to your webservice here
         //$userData = '...';
         $password = 'test';
-        $resp = $this->client->post('api/auth/signin', [
+        /*$resp = $this->client->post('api/auth/signin', [
             'form_params'=>[
                 'email'=>'test@gmail.com',
                 'password'=>'test',
             ],
-        ]);
+        ]);*/
+        $resp = $this->client->get('/api/users/'.$username, []);
+
         $json = $resp->getBody()->getContents();
         $serializer = $this->serializer;
         $userData = $serializer->deserialize($json, "AppBundle\Security\User\WebserviceUser", 'json');
