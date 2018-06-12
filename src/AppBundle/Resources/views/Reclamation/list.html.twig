@@ -94,9 +94,17 @@
                             'status': val,
                             'id': id,
                             'update': true,
+                        }, function (data) {
+                            var obj = JSON.parse(data);
+                            //
+                            if(obj.success){
+                                setTimeout(function () {
+                                    location.reload(true);
+                                }, 1000);
+                            }
                         });
                     }
-                    location.reload(true);
+                    /**/
                 }
             });
         });

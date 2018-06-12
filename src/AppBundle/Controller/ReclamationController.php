@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+
 /**
  * @Route("/reclamation")
  */
@@ -25,7 +26,7 @@ class ReclamationController extends Controller
             'Accept' => 'application/json',
         ];
         $client = $this->get('eight_points_guzzle.client.api_city');
-        $resp = $client->get('api/reclamations/list',[
+        $resp = $client->get('api/reclamations/list', [
             'headers' => $headers,
         ]);
         $json = $resp->getBody()->getContents();
@@ -34,7 +35,7 @@ class ReclamationController extends Controller
         $array = json_decode($json, true);
         //print_r($array);
         $_data = '{}';
-        if(isset($array['content'])){
+        if (isset($array['content'])) {
             $_data = json_encode($array['content']);
         }
         /*echo $_data;
@@ -48,6 +49,7 @@ class ReclamationController extends Controller
             'reclamations' => $data,
         ]);
     }
+
     /**
      * @Route("/update", name="reclamation_update")
      */
@@ -64,11 +66,11 @@ class ReclamationController extends Controller
             'Accept' => 'application/json',
         ];
         $client = $this->get('eight_points_guzzle.client.api_city');
-        $resp = $client->put('api/reclamations/enable',[
+        $resp = $client->put('api/reclamations/enable', [
             'headers' => $headers,
             'query' => [
                 'id' => $id,
-                'isEnabled' => $status,
+                'isEnabled' => $status ? 1 : 0,
             ],
         ]);
         $json = $resp->getBody()->getContents();
